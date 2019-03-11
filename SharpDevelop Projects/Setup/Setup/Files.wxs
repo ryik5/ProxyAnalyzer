@@ -1,0 +1,15 @@
+﻿<?xml version="1.0"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<DirectoryRef Id="TARGETDIR">
+			<Directory Id="ProgramFilesFolder" Name="PFiles">
+				<Directory Id="INSTALLDIR" Name="Your Application">
+					<File />
+					<Component Id="MyComponent" Guid="73D8CFBF-58CC-4893-9BEA-0395A122568A" DiskId="1">
+						<File Id="LicenseFile" Name="license.rtf" Source="license.rtf" />
+					</Component>
+				</Directory>
+			</Directory>
+		</DirectoryRef>
+	</Fragment>
+</Wix>

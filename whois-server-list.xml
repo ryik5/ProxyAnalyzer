@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<domainList version="2.2.1">
+    <date>2016-03-27T19:02:24.504+01:00</date>
+    <description>This list is hosted at https://github.com/whois-server-list/whois-server-list
+		Donations go to bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK</description>
+    <domain name="aaa">
+        <source>IANA</source>
+        <created>2015-08-13T00:00:00+02:00</created>
+        <changed>2015-08-28T00:00:00+02:00</changed>
+        <registrationService>http://www.aaa.com</registrationService>
+        <state>ACTIVE</state>
+    </domain>
+    <domain name="aarp">
+        <source>IANA</source>
+        <whoisServer host="whois.nic.aarp">
+            <source>IANA</source>
+            <availablePattern>\Qno match\E</availablePattern>
+        </whoisServer>
+        <created>2015-10-22T00:00:00+02:00</created>
+        <changed>2016-02-22T00:00:00+01:00</changed>
+        <state>ACTIVE</state>
+    </domain>
+    <domain name="abarth">
+        <source>PSL</source>
+    </domain>
+    <domain name="abb">
+        <source>IANA</source>
+        <created>2015-04-09T00:00:00+02:00</created>
+        <changed>2016-02-19T00:00:00+01:00</changed>
+        <registrationService>http://abb.com</registrationService>
+        <state>ACTIVE</state>
+    </domain>
+    <domain name="abbott">
+        <source>IANA</source>
+        <whoisServer host="whois.afilias-srs.net">
+            <source>IANA</source>
+            <availablePattern>\Qnot found\E</availablePattern>
+        </whoisServer>
+        <created>2014-11-20T00:00:00+01:00</created>
+        <changed>2015-10-01T00:00:00+02:00</changed>
+        <registrationService>http://www.abbott.com</registrationService>
+        <state>ACTIVE</state>
+    </domain>
+    <domain name="abbvie">
+        <source>PSL</source>
+    </domain>
+    <domain name="abc">
+        <source>PSL</source>
+    </domain>
+    <domain name="able">
+        <source>PSL</source>
+    </domain>
+    <domain name="abogado">
+        <source>IANA</source>
+        <whoisServer host="whois-dub.mm-registry.com">
+            <source>IANA</source>
+            <availablePattern>\Qavailable\E</availablePattern>
+        </whoisServer>
+        <created>2014-07-10T00:00:00+02:00</created>
+        <changed>2014-10-15T00:00:00+02:00</changed>
+        <registrationService>http://mm-registry.com</registrationService>
+        <state>ACTIVE</state>
+    </domain>
+    <domain name="abudhabi">
+        <source>PSL</source>
+    </domain>
+    <domain name="ac">
+        <source>XML</source>
+        <whoisServer host="whois.nic.ac">
+            <source>XML</source>
+            <availablePattern>\Qavailable\E</availablePattern>
+        </whoisServer>
+        <created>1997-12-19T00:00:00+01:00</created>
+        <changed>2016-02-26T00:00:00+01:00</changed>
+        <registrationService>http://www.nic.ac/</registrationService>
+        <state>ACTIVE</state>
+        <countryCode>SH</countryCode>
+        <domain name="ac.ac">
+            <source>XML</source>
+            <whoisServer host="whois.nic.ac">
+                <source>PHOIS</source>
+                <availablePattern>\QAvailable\E</availablePattern>
+            </whoisServer>
+        </domain>
+        <domain name="co.ac">
+            <source>XML</source>
+            <whoisServer host="whois.nic.ac">
+                <source>PHOIS</source>
+                <availablePattern>\Qnot registered\E</availablePattern>
+            </whoisServer>
+        </domain>
+        <domain name="com.ac">
+            <source>PSL</source>
+        </domain>
+        <domain name="edu.ac">
+            <source>PSL</source>
+        </domain>
+        <domain name="gov.ac">
+            <source>PSL</source>
+        </domain>
+        <domain name="gv.ac">
+            <source>XML</source>
+            <whoisServer host="whois.nic.ac">
+                <source>PHOIS</source>
+                <availablePattern>\QAvailable\E</availablePattern>
+            </whoisServer>
+        </domain>
+        <domain name="mil.ac">
+            <source>PSL</source>
+        </domain>
+        <domain name="net.ac">
+            <source>PSL</source>
+        </domain>
+        <domain name="or.ac">
+            <source>XML</source>
+            <whoisServer host="whois.nic.ac">
+                <source>PHOIS</source>
+                <availablePattern>\QAvailable\E</availablePattern>
+            </whoisServer>
+        </domain>
+        <domain name="org.ac">
+            <source>PSL</source>
+        </domain>
+    </domain>
+    <domain name="vc">
+        <source>XML</source>
+        <whoisServer host="whois.adamsnames.tc">
+            <source>PHOIS</source>
+        </whoisServer>
+        <whoisServer host="whois.afilias-grs.info">
+            <source>WHOIS_RB</source>
+            <availablePattern>\Qnot found\E</availablePattern>
+        </whoisServer>
+        <whoisServer host="whois2.afilias-grs.net">
+            <source>XML</source>
+            <availablePattern>\Qnot found\E</availablePattern>
+        </whoisServer>
+        <created>1991-09-03T00:00:00+02:00</created>
+        <changed>2008-12-30T00:00:00+01:00</changed>
+        <state>ACTIVE</state>
+        <countryCode>VC</countryCode>
+        <domain name="com.vc">
+            <source>PSL</source>
+        </domain>
+        <domain name="edu.vc">
+            <source>PSL</source>
+        </domain>
+        <domain name="gov.vc">
+            <source>PSL</source>
+        </domain>
+        <domain name="mil.vc">
+            <source>PSL</source>
+        </domain>
+        <domain name="net.vc">
+            <source>PSL</source>
+        </domain>
+        <domain name="org.vc">
+            <source>PSL</source>
+        </domain>
+    </domain>
+</domainList>

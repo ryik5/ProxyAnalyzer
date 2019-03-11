@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<?define ProductName="Proxy Analyzer 2" ?>
+<?define ProductVersion="2.1.4.70" ?>
+<?define Description="Proxy Analyzer 2 of Data of SARG" ?>
+<?define SolutionName="ProxyAnalyser2" ?>
+<?define ProductCode="46E53E11-EED9-4DA2-B7E7-88BFE93F3DA4"?>
+<?define UpgradeCode="68708D7E-5403-4128-B584-549EAD60622C"?>
+<?define Manufacturer="RYIK"?>
+<?define ProxyAnalyser_TargetDir=$(var.ProxyAnalyser.TargetDir)?>    
+  
+<Product Id="*" Name="$(var.ProductName)" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" Language="1049" Codepage="1251" UpgradeCode="$(var.UpgradeCode)"> 
+      <!-- or InstallScope="perMachine" -->
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perUser" InstallPrivileges="limited" Platforms="Intel" 
+             Manufacturer="$(var.Manufacturer)" SummaryCodepage="1251" Description="$(var.ProductName)" AdminImage="no" 
+             Comments="$(var.Description)" Keywords="Installer Proxy Analyzer SARG RYIK" ShortNames="yes" />
+      
+      <Media Id="1" Cabinet="product.cab" EmbedCab="yes" CompressionLevel="high" />
+      <Icon Id="ProxyAnalyserIcon" SourceFile="..\bin\Release\ryik.ico" />
+      <Property Id="ARPPRODUCTICON" Value="ProxyAnalyserIcon" />
+      <Property Id='ARPNOREPAIR' Value='1'/>
+ <!--     <Property Id='ARPNOMODIFY' Value='1'/>-->
+
+		 <Feature Id="ProductFeature" Title="$(var.ProductName)" Level="1" Description="$(var.Description)" ConfigurableDirectory="$(var.Manufacturer)">
+			  <ComponentGroupRef Id="ProductComponents" />
+        <ComponentRef Id="ApplicationShortcutDesktop" />
+        <ComponentRef Id="ApplicationProxyAnalyser" />
+        <ComponentRef Id="ShortcutProgramsFolderProxyAnalyser" />
+        <ComponentRef Id="ShortcutProgramsFolderProxyAnalyserMenuFolder" />
+     <!--
+        <ComponentRef Id="AppDataFolder" />
+        <ComponentRef Id="INSTALLDIR" />
+        <ComponentRef Id="RYIK" />
+      -->
+     </Feature>
+      
+	    <InstallExecuteSequence>
+         <RemoveExistingProducts After="InstallValidate" />
+      </InstallExecuteSequence>
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+      <!--Id='ApplicationDataFolder' 
+      <Directory Id="AppDataFolder">  
+        <Directory Id="MyAppFolder" Name="My">
+          <Component Id="MyComponent">
+              <File Source="Files\test1.txt" />
+          </Component>
+        </Directory>
+      </Directory>
+      
+      <Directory Id="ProgramFilesFolder">
+          <Directory Id="INSTALLDIR" Name="RYIK" LongName="RYIK">
+              <Directory Id="ProxyAls" Name="ProxyAls" LongName="Proxy Analyser 2">
+              </Directory>
+          </Directory>
+      </Directory>
+      -->
+			 <Directory Id="LocalAppDataFolder" Name="AppData">  <!--or Id='ApplicationDataFolder' -->
+				 <Directory Id="RYIK" Name="RYIK">
+            <Component Id="ApplicationProxyAnalyser" Guid="*">
+                <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.SolutionName)" Name="Appinstalled" Type="integer" Value="1" KeyPath="yes" />
+                <RemoveFile Id="CleanRYIK" Name="*" On="both" />   
+                <RemoveFolder Id="RemoveRYIK" On="both" />
+                <RemoveFolder Id="CleanupRYIK" On="both" />        
+            </Component>
+           <Directory Id="ProductComponents" Name="$(var.SolutionName)" />
+			   </Directory>
+       </Directory> 
+      
+        <Directory Id="DesktopFolder">
+              <Component Id="ApplicationShortcutDesktop" Guid="*">
+              <Shortcut Id="ApplicationDesktopShortcut" Name="$(var.ProductName)" Description="$(var.Description)" Target="[ProductComponents]ProxyAnalyser.exe" WorkingDirectory="ProductComponents" />
+              <RemoveFolder Id="DesktopFolder" On="uninstall" />
+              <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.SolutionName)" Name="Desktopinstalled" Type="integer" Value="1" KeyPath="yes" />
+          </Component>
+        </Directory>  
+         <!--<Directory Id="WindowsFolder">
+               <Directory Id="MyFolder" Name="MyFolder"/>
+             </Directory>
+         -->   
+      <Directory Id="ProgramMenuFolder">
+          <Directory Id="ApplicationProgramsFolder">
+             <Component Id="ShortcutProgramsFolderProxyAnalyser" Guid="*">
+                <Shortcut Id="ShortcutProgramsFolderProxyAnalyser" Name="$(var.ProductName)" Description="$(var.Description)" Target="[ProductComponents]ProxyAnalyser.exe" WorkingDirectory="ProductComponents" />
+                <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" />
+                <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.SolutionName)" Name="Menuinstalled" Type="integer" Value="1" KeyPath="yes" />
+             </Component>
+            
+             <Directory Id="RYIKProgrammMenuFolder" Name="RYIK">
+               <Component Id="ShortcutProgramsFolderProxyAnalyserMenuFolder" Guid="*">
+                  <Shortcut Id="ShortcutProgramsFolderProxyAnalyserMenuFolder" Name="$(var.ProductName)" Description="$(var.Description)" Target="[ProductComponents]ProxyAnalyser.exe" WorkingDirectory="ProductComponents" />
+                  <RemoveFolder Id="RYIKProgrammMenuFolder" On="uninstall" />
+                  <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.SolutionName)" Name="FolderMenuinstalled" Type="integer" Value="1" KeyPath="yes" />
+               </Component>
+             </Directory>
+          </Directory>
+       </Directory>         
+  </Directory>
+        
+      <ComponentGroup Id="ProductComponents" Directory="ProductComponents">
+        <Component Id="ProductComponent" Guid="0951206E-2A59-4402-AD7D-3017FC6B26D5" DiskId="1" Location="source">     
+          <CreateFolder />
+          <File Id="ProxyAnalyser" Name="ProxyAnalyser.exe" Source="$(var.ProxyAnalyser.TargetPath)" /> 
+          <File Id="ProxyAnalyser.ini" Name="ProxyAnalyser.ini" Source="..\bin\Release\ProxyAnalyser.ini" />
+          <File Id="itextsharp.dll" Name="itextsharp.dll" Source="..\bin\Release\itextsharp.dll" />
+          <File Id="itextsharp.xml" Name="itextsharp.xml" Source="..\bin\Release\itextsharp.xml" />        
+          <File Id="HtmlAgilityPack.dll" Name="HtmlAgilityPack.dll" Source="..\bin\Release\HtmlAgilityPack.dll" />
+          <File Id="HtmlAgilityPack.pdb" Name="HtmlAgilityPack.pbd" Source="..\bin\Release\HtmlAgilityPack.pdb" />
+          <File Id="HtmlAgilityPack.xml" Name="HtmlAgilityPack.xml" Source="..\bin\Release\HtmlAgilityPack.xml" />
+          <!--<File Id='ryik.ico' Source='D:\MVS\Projects\myProxyChecker\bin\Release\ryik.ico' />    -->          
+			    <RegistryKey Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.SolutionName)" />
+          <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.SolutionName)" Name="Folderinstalled" Type="integer" Value="1" KeyPath="yes" />
+          <RemoveFile Id="RemoveProductComponent" Name="*" On="both" />   
+          <RemoveFolder Id="RemoveProductComponents" On="both" />        
+          <RemoveFile Id="CleanProductComponents" Name="*" On="both" />   
+          <RemoveFolder Id="CleanupProductComponents" On="both" />        
+        </Component>
+     	</ComponentGroup>      
+
+    <Property Id="WIXUI_INSTALLDIR" Value="RYIKProgrammMenuFolder" ></Property>
+    <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="License.rtf"/>
+    <UIRef Id="WixUI_InstallDir"/>
+  </Product>
+
+</Wix>
