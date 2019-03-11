@@ -80,17 +80,16 @@ namespace ProxyAnalyser
             var converter = new ImageConverter();
             LogoPNG = iTextSharp.text.Image.GetInstance((byte[])converter.ConvertTo(bmplogo, typeof(byte[])));
 
+            //strings: \u2122
+            //strings: \u00a9
+
             myFileVersionInfo = myFileVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(Application.ExecutablePath);
             strVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            StatusLabel1.Text = myFileVersionInfo.Comments + " ver." + myFileVersionInfo.FileVersion + " b." + strVersion + " " + myFileVersionInfo.LegalCopyright;
+            StatusLabel1.Text = myFileVersionInfo.Comments + " ver. \u2122 \u00a9   b." + strVersion + " " + myFileVersionInfo.LegalCopyright;
+
             _MakeIni makeIni = new _MakeIni();
-            try
-            {
-                if (!File.Exists("ProxyAnalyser.ini"))
-                { makeIni.CreateIni(); }
-            }
-            catch { MessageBox.Show("Отсутствует файл ProxyAnalyser.ini\nПри создании его возникли проблемы!"); }
-            finally { makeIni = null; }
+            if (!File.Exists("ProxyAnalyser.ini"))
+            { makeIni.CreateIni(); }
 
             preparedDataToolStripMenuItem.Enabled = false;
             exportToExcelSummarizeToolStripMenuItem.Enabled = false;
@@ -192,9 +191,9 @@ namespace ProxyAnalyser
             }
             _ProgressWork2();
 
-            for (int i = 0; i < 12; i++) // предварительное обнуление массива
-            { _substringMonthAndBytes[i] = 0; }
-            _ProgressWork2();
+          //  for (int i = 0; i < 12; i++) // предварительное обнуление массива
+          //  { _substringMonthAndBytes[i] = 0; }
+          //  _ProgressWork2();
 
             int ii;
             string k = null, kk = null, t = "ProxyAnalyser\\!htupm";
@@ -729,6 +728,8 @@ namespace ProxyAnalyser
             HtmlNodeCollection NoAltElements;
             HD.LoadHtml(File.ReadAllText(myInFile).ToString());
             string _success = " успешно!";
+            string a, a1;
+            double result;
             int i = 0;
             try  //Parsing URLs
             {
@@ -755,37 +756,35 @@ namespace ProxyAnalyser
                     i = 0;
                     foreach (HtmlNode HN in NoAltElements)
                     {
-                        string a = HN.InnerText.Replace(".", ",").Trim().ToLower();
-                        string a1 = "0";
+                         a = HN.InnerText.Trim().ToLower().Trim();
 
                         if (a.Contains('k'))
                         { a1 = "k"; }
-
-                        if (a.Contains('g'))
+                        else if (a.Contains('g'))
                         { a1 = "g"; }
-
-                        if (a.Contains('m'))
+                        else if (a.Contains('m'))
                         { a1 = "m"; }
+                        else
+                        { a1 = ""; }
 
                         switch (a1)
                         {
-                            case ("k"):
-                                a = a.Replace("k", "").Trim();
+                            case "k":
+                                result = Convert.ToDouble(a.Replace("k", ""))/1024;
                                 break;
-                            case ("m"):
-                                a = a.Replace("m", "").Trim();
-                                a = (1024 * Convert.ToDouble(a)).ToString();
+                            case "m":
+                                result = Convert.ToDouble(a.Replace("m", ""));
                                 break;
-                            case ("g"):
-                                a = a.Replace("g", "").Trim();
-                                a = (1024 * 1024 * Convert.ToDouble(a)).ToString();
+                            case "g":
+                                result = 1024 * Convert.ToDouble(a.Replace("g", ""));
                                 break;
                             default:
-                                a = "0,001";
+                                result = 0.0001;
                                 break;
                         }
 
-                        substringMonthSummary2[(i + myStartAddrs)] = Math.Round((Convert.ToDouble(a) / 1024), 2);//MB, округление результата до 3-х знаков после запятой
+                        substringMonthSummary2[(i + myStartAddrs)] = Math.Round(result, 2);//MB, округление результата до 3-х знаков после запятой
+
                         if (i + myStartAddrs < 249 + myStartAddrs)
                         { i++; }
                     }
@@ -816,7 +815,7 @@ namespace ProxyAnalyser
             NoAltElements = null;
             StatusLabel2.Text = myInFile + " " + _success;
         }
-
+        
         private void _ParsingHtmlTotalAmount(string myInFile, int myStartAddrs) //Parsing the Amount downloaded from a temporary file in the array "_substringMonthAndBytes"
         {
             HtmlDocument HD = new HtmlDocument();
@@ -831,12 +830,13 @@ namespace ProxyAnalyser
                 {
                     foreach (HtmlNode HN in NoAltElements)
                     {
-                        a = HN.InnerText.Replace(".", ",").Trim();
-                        if (a.ToLower().Contains('k'))
+                        a = HN.InnerText.Trim().ToLower();
+                         
+                        if (a.Contains('k'))
                         { a1 = "k"; }
-                        else if (a.ToLower().Contains('g'))
+                        else if (a.Contains('g'))
                         { a1 = "g"; }
-                        else if (a.ToLower().Contains('m'))
+                        else if (a.Contains('m'))
                         { a1 = "m"; }
                         else
                         { a1 = ""; }
@@ -844,30 +844,24 @@ namespace ProxyAnalyser
                         switch (a1)
                         {
                             case "k":
-                                result = Convert.ToDouble(a.ToLower().Remove('k')) / 1024 / 1024;
+                                result = Convert.ToDouble(a.Replace("k", "")) / 1024 / 1024;
                                 break;
                             case "m":
-                                result = Convert.ToDouble(a.ToLower().Remove('m')) / 1024;
+                                result = Convert.ToDouble(a.Replace("m", "")) / 1024;
                                 break;
                             case "g":
-                                result = Convert.ToDouble(a.ToLower().Remove('g'));
+                                result = Convert.ToDouble(a.Replace("g", ""));
                                 break;
                             default:
                                 result = 0.0001;
                                 break;
                         }
-
-                        MessageBox.Show(a + "\n" + result);
-
-                        _substringMonthAndBytes[myStartAddrs] += Math.Round(result, 2); //Результат в ГБ
+                        _substringMonthAndBytes[(myStartAddrs)] += Math.Round(result, 2); //Результат в ГБ
                         break;
                     }
                 }
             }
-            catch (Exception expt)
-            {
-                MessageBox.Show(expt.ToString());
-            }
+            catch { }
             NoAltElements = null;
             HD = null;
         }
@@ -1334,8 +1328,8 @@ namespace ProxyAnalyser
 
         private void _InfoStaticsTotalMonth() //Amount Downloaded. Build the Chart of the changing amount downloaded from a month to another month
         {
-            try { chart4.Series[0].Points.Clear(); } catch { }
-            try { chart4.Series[1].Points.Clear(); } catch { }
+             chart4?.Series[0]?.Points?.Clear(); 
+             chart4?.Series[1]?.Points?.Clear(); 
 
             for (int d = 11; d > -1; d--)
             {
