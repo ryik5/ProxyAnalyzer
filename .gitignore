@@ -13,7 +13,8 @@
 *.rtf
 *.wax
 *.wixproj
-
+*.tmp
+*.reg
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
