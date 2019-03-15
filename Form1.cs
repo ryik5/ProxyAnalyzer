@@ -1096,6 +1096,16 @@ namespace ProxyAnalyser
 
             chart1.Titles[0].Text = "По категориям за весь период";
             chart1.Titles[0].Font = new Font("Arial", 9, FontStyle.Bold);
+            
+            // Линии тренда
+            // chart1.ChartAreas[0].AxisX.ScaleView.Zoom(0, 10);
+            chart1.ChartAreas[0].CursorX.IsUserEnabled = true;
+            chart1.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
+            chart1.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
+            chart1.ChartAreas[0].AxisX.ScrollBar.IsPositionedInside = true;
+            chart1.MouseWheel += chart1_MouseWheel;
+
+
             chart1.DataManipulator.Sort(PointSortOrder.Descending, "Скачано ГБ");  //Сортировка в графике по возрастанию 
             chart1.DataBind();
             try
@@ -1108,6 +1118,44 @@ namespace ProxyAnalyser
             chart1.Visible = true;
 
             exportToExcelSummarizeToolStripMenuItem.Enabled = true;
+        }
+
+
+        //todo
+        // ПРОВЕРИТЬ!!!!
+        void chart1_MouseWheel(object sender, MouseEventArgs e)
+        {
+            char_MouseWheel(chart1, e);
+        }
+        void chart3_MouseWheel(object sender, MouseEventArgs e)
+        {
+            char_MouseWheel(chart3, e);
+        }
+        void chart4_MouseWheel(object sender, MouseEventArgs e)
+        {
+            char_MouseWheel(chart4, e);
+        }
+        void chart5_MouseWheel(object sender, MouseEventArgs e)
+        {
+            char_MouseWheel(chart5, e);
+        }
+
+        void char_MouseWheel(Chart chart, MouseEventArgs e)
+        {
+            double xMin = chart.ChartAreas[0].AxisX.ScaleView.ViewMinimum/2;
+            double xMax = chart.ChartAreas[0].AxisX.ScaleView.ViewMaximum;
+            if (e.Delta < 0)
+            {
+                chart.ChartAreas[0].AxisX.ScaleView.ZoomReset(0);
+                chart.ChartAreas[0].AxisY.ScaleView.ZoomReset(0);
+            }
+
+            if (e.Delta > 0)
+            {
+                double posXStart = chart.ChartAreas[0].AxisX.PixelPositionToValue(e.Location.X) - (xMax - xMin) / 2;
+                double posXFinish = chart.ChartAreas[0].AxisX.PixelPositionToValue(e.Location.X) + (xMax - xMin) / 2;
+                chart.ChartAreas[0].AxisX.ScaleView.Zoom(posXStart, posXFinish);
+            }
         }
 
         private void _InfoStaticsMonth() //Build a Table and a Chart by the selected month
@@ -1223,6 +1271,12 @@ namespace ProxyAnalyser
             chart3.Series[0].ToolTip = _uUser + " | Категория = #VALX, Скачано = #VALY МБ ";
             chart3.DataManipulator.Sort(PointSortOrder.Descending, "Скачано МБ");
             chart3.Titles[0].Font = new Font("Arial", 9, FontStyle.Bold);
+
+            chart3.ChartAreas[0].CursorX.IsUserEnabled = true;
+            chart3.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
+            chart3.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
+            chart3.ChartAreas[0].AxisX.ScrollBar.IsPositionedInside = true;
+            chart3.MouseWheel += chart3_MouseWheel;
             chart3.DataBind();
             try
             {
@@ -1378,6 +1432,11 @@ namespace ProxyAnalyser
             System.XML.XmlTextReader myXMLReader = new System.XML.XmlTextReader("c:\\MyPersistedData.xml");
             Chart1.Serializer.Load(myXMLReader);*/
 
+            chart4.ChartAreas[0].CursorX.IsUserEnabled = true;
+            chart4.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
+            chart4.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
+            chart4.ChartAreas[0].AxisX.ScrollBar.IsPositionedInside = true;
+            chart4.MouseWheel += chart4_MouseWheel;
             chart4.DataBind();
             chart4.Visible = false;
             try
@@ -1590,6 +1649,12 @@ namespace ProxyAnalyser
             chart5.Titles[0].Text = "Распределение объема интернет-трафика с учетом категорий";
             chart5.Titles[0].Font = new Font("Arial", 9, FontStyle.Bold);
             chart5.Series[0].Color = Color.Crimson;
+
+            chart5.ChartAreas[0].CursorX.IsUserEnabled = true;
+            chart5.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
+            chart5.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
+            chart5.ChartAreas[0].AxisX.ScrollBar.IsPositionedInside = true;
+            chart5.MouseWheel += chart5_MouseWheel;
             try { chart5.DataBind(); } catch (Exception exp) { MessageBox.Show(exp.ToString()); }
 
             if (bExistChart5Data)
